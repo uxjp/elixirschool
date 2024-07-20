@@ -72,7 +72,6 @@ config :friends, Friends.Repo,
 ```
 
 This configures how Ecto will connect to the database. You may need to configure your database to have a matching credentials.
-
 It also creates a `Friends.Repo` module inside `lib/friends/repo.ex`
 
 ```elixir
@@ -116,6 +115,21 @@ mix ecto.create
 Ecto will use the information in the `config/config.exs` file to determine how to connect to Postgres and what name to give the database.
 
 If you receive any errors, make sure that the configuration information is correct and that your instance of postgres is running.
+
+If you get error `invalid_password` and your using a newly created Postgres instance, setting a password for your user must solve it. Two simple commands can do it:  
+
+Login with psql client as a privileged user:  
+```bash
+sudo -u postgres psql
+```
+
+Setup a new password:  
+```sql
+ALTER USER postgres WITH PASSWORD 'your_password';
+\q 
+```
+After this change update the `password` configuration key in `config/config.exs` to *your_password*. And retry the creation of the new database. 
+
 
 ### Migrations
 
